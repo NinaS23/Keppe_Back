@@ -1,4 +1,4 @@
-import httpStatus from "../utils/httpStatus.js";
+import httpStatus from "../utils/httpStatus";
 import { NextFunction, Request, Response } from "express";
 
 export default async function errorHandler(error: { code: string; message: string; }, req: Request, res: Response, next: NextFunction) {
