@@ -3,10 +3,9 @@ import httpStatus from "../utils/httpStatus";
 import * as userService from "../services/userService";
 
 export async function signUp(req: Request, res: Response) {
-    const { email, password, confirmPassword } : { 
+    const { email, password } : { 
         email:string, 
-        password:string,
-        confirmPassword: string
+        password:string
     } = req.body;
     await userService.signUp(email,password);
     res.sendStatus(httpStatus.CREATED)
