@@ -16,7 +16,8 @@ export async function signIn(
     email:string, 
     password:string
 ) {
-    await isUserExistent(email,"select");
+   let userSearch = await isUserExistent(email,"select");
+   await isPasswordCorrect(password, userSearch.rows[0].password);
 }
 
 
@@ -29,4 +30,14 @@ async function isUserExistent(email: string, type: string) {
         throw { code: "not-found", message: "usuário não encontrado" };
     }
     return user;
+}
+
+async function isPasswordCorrect(inputPassword: string, userPassword: string) {
+    const passwordVerify = bcrypt.compareSync(inputPassword, userPassword);
+    if (!passwordVerify){
+        throw { 
+            code: "unauthorized", 
+            message: "usuário ou senha estão incorretos" 
+        };
+    }
 }
