@@ -16,7 +16,7 @@ export async function signIn(req: Request, res: Response) {
         email:string, 
         password:string
     } = req.body;
-    await userService.signIn(email,password);
-    res.sendStatus(httpStatus.OK);
+    let token = await userService.signIn(email,password);
+    res.status(httpStatus.OK).send(token);
 } 
 

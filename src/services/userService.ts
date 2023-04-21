@@ -18,6 +18,8 @@ export async function signIn(
 ) {
    let userSearch = await isUserExistent(email,"select");
    await isPasswordCorrect(password, userSearch.rows[0].password);
+   const token = await createToken( userSearch.rows[0].id);
+   return token;
 }
 
 
@@ -37,7 +39,20 @@ async function isPasswordCorrect(inputPassword: string, userPassword: string) {
     if (!passwordVerify){
         throw { 
             code: "unauthorized", 
-            message: "usuário ou senha estão incorretos" 
+            message: "usuário ou senha incorreto" 
         };
     }
+}
+
+async function createToken(id: number) {
+    const userId = id;
+    const secret:string = process.env.JWT_SECRET as string;
+    const config = {expiresIn:"30d"};
+
+    const token = Jwt.sign(
+        {id: userId },
+        secret,
+        config     
+    );
+    return { token };
 }
