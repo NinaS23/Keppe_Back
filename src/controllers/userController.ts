@@ -8,5 +8,15 @@ export async function signUp(req: Request, res: Response) {
         password:string
     } = req.body;
     await userService.signUp(email,password);
-    res.sendStatus(httpStatus.CREATED)
+    res.sendStatus(httpStatus.CREATED);
 } 
+
+export async function signIn(req: Request, res: Response) {
+    const { email, password } : { 
+        email:string, 
+        password:string
+    } = req.body;
+    await userService.signIn(email,password);
+    res.sendStatus(httpStatus.OK);
+} 
+

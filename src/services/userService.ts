@@ -8,15 +8,25 @@ export async function signUp(
 ) {
     const SALT = 10;
     const codedPassword = bcrypt.hashSync(password, SALT);
-    await isUserExistent(email, "insert")
+    await isUserExistent(email, "insert");
     await userRepository.insertUser(email,codedPassword);
+}
+
+export async function signIn(
+    email:string, 
+    password:string
+) {
+    await isUserExistent(email,"select");
 }
 
 
 async function isUserExistent(email: string, type: string) {
     const user = await userRepository.getUserByEmail(email);
-    if (user.rowCount && type === "insert") {
-        throw { code: "unauthorized", message: "email alredy exist" }
+    if (user.rowCount === 1 && type === "insert") {
+        throw { code: "unauthorized", message: "email já existe" };
+    }
+    if (user.rowCount === 0 && type === "select") {
+        throw { code: "not-found", message: "usuário não encontrado" };
     }
     return user;
 }
