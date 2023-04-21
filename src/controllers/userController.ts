@@ -8,6 +8,6 @@ export async function signUp(req: Request, res: Response) {
         password:string,
         confirmPassword: string
     } = req.body;
-    await userService.signUp(email,password,confirmPassword);
+    await userService.signUp(email,password);
     res.sendStatus(httpStatus.CREATED)
 } 

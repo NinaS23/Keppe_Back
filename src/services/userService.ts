@@ -4,8 +4,7 @@ import userRepository from "../repositories/userRepository";
 
 export async function signUp(
     email:string, 
-    password:string, 
-    confirmPassword:string
+    password:string
 ) {
     const SALT = 10;
     const codedPassword = bcrypt.hashSync(password, SALT);
